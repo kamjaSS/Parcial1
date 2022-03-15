@@ -66,13 +66,13 @@ router.delete('/sales/:id',(req,res)=>{
 
 })
 // Actualizar un recurso específico existente en la BD
-router.put('/sales/:id',(req,res)=>{
-    const {id} = req.params
-    const{DueDate,DocNum,Status,Line,Vendor,TotalAmt} = req.body
+router.put('/sales/:id', (req, res) => {
+    const { id } = req.params
+    const { nuevoCodigoFactura } = req.body
     saleSchema
-        .updateOne({ _id: id },{$set:{DueDate,DocNum,Status,Line,Vendor,TotalAmt}})
-        .then((data)=>res.json(data))
-        .catch((error)=>res.json({message:error}))
+        .updateOne({ _id: id }, { $set: { "Line.ExpenseDetail.Customer.Ref.value": nuevoCodigoFactura } })
+        .then((data) => res.json(data))
+        .catch((error) => res.json({ message: error }))
 
-})
+});
 module.exports = router
